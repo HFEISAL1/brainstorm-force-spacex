@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import Wave from "../components/UI/Wave";
 import Hero from "../components/UI/Hero";
@@ -16,7 +16,7 @@ const LIMIT = 3;
 const FIRST_PAGE = 1;
 
 const Launches = () => {
-    const history = useHistory();
+    const navigate = useNavigate();
     const query = useQuery();
 
     const [launches, setLaunches] = useState([]);
@@ -50,9 +50,11 @@ const Launches = () => {
         if (page >= 1 && page <= lastPage) {
             setCurrentPage(page);
             query.set("page", page);
-            history.replace({
-                search: query.toString(),
-            });
+            // navigate.replace({
+            //     search: query.toString(),
+            // });
+            console.log({ queryString1: query.toString() });
+            navigate(query.toString());
         }
     };
 
@@ -67,9 +69,11 @@ const Launches = () => {
         }
         query.set(type, event.target.value);
         query.set("page", 1);
-        history.replace({
-            search: query.toString(),
-        });
+        // navigate.replace({
+        //     search: query.toString(),
+        // });
+        console.log({ queryString2: query.toString() });
+        navigate(query.toString());
     };
 
     return (

@@ -42,7 +42,7 @@ else :
 
     // CHECKING THE EMAIL FORMAT (IF INVALID FORMAT)
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) :
-        $returnData = msg(0, 422, 'Invalid Email Address!');
+        $returnData = msg(0, 422, 'Invalid Email Address: \''.$email.'\'');
 
     // IF PASSWORD IS LESS THAN 8 THE SHOW THE ERROR
     elseif (strlen($password) < 8) :
@@ -51,7 +51,6 @@ else :
     // THE USER IS ABLE TO PERFORM THE LOGIN ACTION
     else :
         try {
-
             $fetch_user_by_email = "SELECT * FROM `users` WHERE `email`=:email";
             $query_stmt = $dbConnection->prepare($fetch_user_by_email);
             $query_stmt->bindValue(':email', $email, PDO::PARAM_STR);
@@ -67,7 +66,6 @@ else :
                 if ($check_password) :
 
                     $jwt = new JwtHandler();
-                    // TODO: Use XAMPP?
                     $token = $jwt->jwtEncodeData(
                         'http://localhost/php_auth_api/',
                         array("user_id" => $row['id'])
@@ -86,7 +84,7 @@ else :
 
             // IF THE USER IS NOT FOUNDED BY EMAIL THEN SHOW THE FOLLOWING ERROR
             else :
-                $returnData = msg(0, 422, 'Invalid Email Address!');
+                $returnData = msg(0, 422, 'Invalid Email Address: \''.$email.'\'');
             endif;
         } catch (PDOException $e) {
             $returnData = msg(0, 500, $e->getMessage());

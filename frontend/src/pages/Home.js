@@ -1,6 +1,5 @@
 import Wave from "../components/UI/Wave";
 import Hero from "../components/UI/Hero";
-import Founder from "../components/Home/Founder";
 import Screen from "../components/UI/Screen";
 import heroAnimation from "../assets/animations/home.json";
 
@@ -13,7 +12,6 @@ const Home = () => {
                 image={heroAnimation}
             />
             <Wave />
-            <Founder />
         </Screen>
     );
 };
