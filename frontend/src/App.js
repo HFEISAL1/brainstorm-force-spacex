@@ -21,11 +21,11 @@ const App = () => {
     const routes = (
         <Routes>
             {user && <Route path="/" element={<Home />} />}
-            <Route path="/rockets" element={<Rockets />} />
-            <Route path="/rockets/:rocketId" element={<RocketDetail />} />
-            <Route path="/launches" element={<Launches />} />
-            <Route path="/launches/:flightNumber" element={<LaunchDetail />} />
-            <Route path="*" element={<Navigate to={user ? "/" : "/login"} />} />
+            {user && <Route path="/rockets" element={<Rockets />} />}
+            {user && <Route path="/rockets/:rocketId" element={<RocketDetail />} />}
+            {user && <Route path="/launches" element={<Launches />} />}
+            {user && <Route path="/launches/:flightNumber" element={<LaunchDetail />} />}
+            {user && <Route path="*" element={<Navigate to={user ? "/" : "/login"} />} />}
             {!user && (
                 <>
                     <Route path="/login" element={<Login />} />
