@@ -1,39 +1,33 @@
-import React, { Suspense, useContext } from "react";
-import { BrowserRouter as Router, Navigate, Route, Switch /*, Redirect*/ } from "react-router-dom";
+import React, { Suspense /*, useContext*/ } from "react";
+import { BrowserRouter as Router/*, Navigate*/, Route, Routes } from "react-router-dom";
 
 import { RocketsContextProvider } from "./contexts/RocketsContext";
-import { UserContext } from "./contexts/UserContext";
+// import { UserContext } from "./contexts/UserContext";
 import Nav from "./components/Navigation/Nav";
 import Loader from "./components/UI/Loader";
-import Login from "./components/Login";
-import Register from "./components/Register";
+// import Login from "./components/Login";
+// import Register from "./components/Register";
+
+import "./App.css";
 
 const Home = React.lazy(() => import("./pages/Home"));
-const Launches = React.lazy(() => import("./pages/Launches"));
-const LaunchDetail = React.lazy(() => import("./pages/LaunchDetail"));
-const Rockets = React.lazy(() => import("./pages/Rockets"));
-const RocketDetail = React.lazy(() => import("./pages/RocketDetail"));
+// const Launches = React.lazy(() => import("./pages/Launches"));
+// const LaunchDetail = React.lazy(() => import("./pages/LaunchDetail"));
+// const Rockets = React.lazy(() => import("./pages/Rockets"));
+// const RocketDetail = React.lazy(() => import("./pages/RocketDetail"));
 
 const App = () => {
-    const { user } = useContext(UserContext);
     const routes = (
-        <Switch>
-            {user && <Route path="/" exact render={() => <Home />} />}
-            {user && <Route path="/rockets" exact render={() => <Rockets />} />}
-            {user && <Route path="/rockets/:rocketId" render={() => <RocketDetail />} />}
-            {user && <Route path="/launches" exact render={() => <Launches />} />}
-            {user && <Route path="/launches/:flightNumber" render={() => <LaunchDetail />} />}
-            {!user && (
-                <>
-                    <Route path="/login" element={<Login />} />
-                    <Route path="/signup" element={<Register />} />
-                </>
-            )}
+        <Routes>
+            <Route path="/" element={<Home />} />
+            {/* <Route path="/rockets" exact render={() => <Rockets />} />
+            <Route path="/rockets/:rocketId" render={() => <RocketDetail />} />
+            <Route path="/launches" exact render={() => <Launches />} />
+            <Route path="/launches/:flightNumber" render={() => <LaunchDetail />} /> */}
             {/* <Route>
-                <Redirect to="/" />
+                <Navigate to="/" />
             </Route> */}
-            <Route path="*" element={<Navigate to={user ? "/" : "/login"} />} />
-        </Switch>
+        </Routes>
     );
 
     const fallback = (
@@ -48,7 +42,7 @@ const App = () => {
                 <Router basename={process.env.PUBLIC_URL}>
                     <Nav />
                     {routes}
-                </Router>
+                    </Router>
             </Suspense>
         </RocketsContextProvider>
     );

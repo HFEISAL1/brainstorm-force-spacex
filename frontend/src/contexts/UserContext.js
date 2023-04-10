@@ -14,7 +14,7 @@ export const UserContextProvider = ({ children }) => {
     const registerUser = async ({ firstName, lastName, email, password }) => {
         setWait(true);
         try {
-            const { data } = await Axios.post("register.php", {
+            const { data } = await Axios.post("http://localhost:8000/register.php", {
                 firstName,
                 lastName,
                 email,

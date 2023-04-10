@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import Wave from "../components/UI/Wave";
 import Hero from "../components/UI/Hero";
@@ -16,7 +16,7 @@ const LIMIT = 3;
 const FIRST_PAGE = 1;
 
 const Launches = () => {
-    const history = useHistory();
+    const history = useNavigate();
     const query = useQuery();
 
     const [launches, setLaunches] = useState([]);

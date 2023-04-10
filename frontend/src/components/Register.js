@@ -13,7 +13,6 @@ const Register = () => {
     });
 
     const onChangeInput = (e) => {
-        console.log({ e });
         setFormData({
             ...formData,
             [e.target.name]: e.target.value,
