@@ -1,3 +1,4 @@
+import UserContextProvider from './context/UserContext';
 import reportWebVitals from "./reportWebVitals";
 import ReactDOM from "react-dom";
 import React from "react";
@@ -6,7 +7,9 @@ import "./index.css";
 
 ReactDOM.render(
     <React.StrictMode>
-        <App />
+        <UserContextProvider>
+            <App />
+        </UserContextProvider>
     </React.StrictMode>,
     document.getElementById("root")
 );
