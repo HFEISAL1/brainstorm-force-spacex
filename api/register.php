@@ -6,6 +6,7 @@ header("Content-Type: application/json; charset=UTF-8");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
 require 'bootstrapper.php';
+require __DIR__ . '/Src/JWTHandler.php';
 
 function msg($success, $status, $message, $extra = [])
 {
@@ -25,24 +26,24 @@ if ($_SERVER["REQUEST_METHOD"] != "POST") :
     $returnData = msg(0, 404, 'Page Not Found!');
 
 elseif (
-    !isset($data->first_name)
-    || !isset($data->last_name)
+    !isset($data->firstName)
+    || !isset($data->lastName)
     || !isset($data->email)
     || !isset($data->password)
-    || empty(trim($data->first_name))
-    || empty(trim($data->last_name))
+    || empty(trim($data->firstName))
+    || empty(trim($data->lastName))
     || empty(trim($data->email))
     || empty(trim($data->password))
 ) :
 
-    $fields = ['fields' => ['first_name', 'last_name','email', 'password']];
+    $fields = ['fields' => ['firstName', 'lastName','email', 'password']];
     $returnData = msg(0, 422, 'Please Fill in all Required Fields!', $fields);
 
 // IF THERE ARE NO EMPTY FIELDS THEN-
 else :
 
-    $first_name = trim($data->first_name);
-    $last_name = trim($data->last_name);
+    $first_name = trim($data->firstName);
+    $last_name = trim($data->lastName);
     $email = trim($data->email);
     $password = trim($data->password);
 
@@ -82,7 +83,28 @@ else :
 
                 $insert_stmt->execute();
 
-                $returnData = msg(1, 201, 'You have successfully registered.');
+                $fetch_user_by_email = "SELECT * FROM `users` WHERE `email`=:email";
+                $query_stmt = $dbConnection->prepare($fetch_user_by_email);
+                $query_stmt->bindValue(':email', $email, PDO::PARAM_STR);
+                $query_stmt->execute();
+
+                // IF THE USER IS FOUNDED BY EMAIL
+                if ($query_stmt->rowCount()) :
+                    $row = $query_stmt->fetch(PDO::FETCH_ASSOC);
+                    $jwt = new JwtHandler();
+                    $token = $jwt->jwtEncodeData(
+                        'http://localhost/php_auth_api/',
+                        array("user_id" => $row['id'])
+                    );
+
+                    $returnData = [
+                        'success' => 1,
+                        'message' => 'You have successfully registered.',
+                        'token' => $token
+                    ];
+                else :
+                    $returnData = msg(0, 422, 'Unable to fetch user data');
+                endif;
 
             endif;
         } catch (PDOException $e) {

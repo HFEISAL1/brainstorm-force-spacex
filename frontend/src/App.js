@@ -20,7 +20,7 @@ const App = () => {
     const { user } = useContext(UserContext);
     const routes = (
         <Routes>
-            {user && <Route path="/" element={<Home />} />}
+            <Route path="/" element={<Home />} />
             {user && <Route path="/rockets" element={<Rockets />} />}
             {user && <Route path="/rockets/:rocketId" element={<RocketDetail />} />}
             {user && <Route path="/launches" element={<Launches />} />}

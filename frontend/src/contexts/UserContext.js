@@ -20,8 +20,14 @@ export const UserContextProvider = ({ children }) => {
                 email,
                 password,
             });
+            console.log({ data });
+            if (data.success && data.token) {
+                localStorage.setItem("loginToken", data.token);
+                setWait(false);
+                return { success: 1 };
+            }
             setWait(false);
-            return data;
+            return { success: 0, message: data.message };
         } catch (err) {
             setWait(false);
             return { success: 0, message: "Server Error!" };

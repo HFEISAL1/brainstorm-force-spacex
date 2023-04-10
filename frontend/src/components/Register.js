@@ -2,8 +2,8 @@ import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { UserContext } from "../contexts/UserContext";
 const Register = () => {
-    const { registerUser, wait } = useContext(UserContext);
-    const [errMsg, setErrMsg] = useState(false);
+    const { registerUser, wait, loggedInCheck } = useContext(UserContext);
+    const [redirect, errMsg, setRedirect, setErrMsg] = useState(false);
     const [successMsg, setSuccessMsg] = useState(false);
     const [formData, setFormData] = useState({
         firstName: "",
@@ -32,7 +32,10 @@ const Register = () => {
         if (data.success) {
             e.target.reset();
             setSuccessMsg("You have successfully registered.");
+            setRedirect("");
             setErrMsg(false);
+            await loggedInCheck();
+            return;
         } else if (!data.success && data.message) {
             setSuccessMsg(false);
             setErrMsg(data.message);
@@ -96,14 +99,18 @@ const Register = () => {
                     required
                 />
                 {successMsg && <div className="text-white border border-gray-200 bg-green-400 rounded p-2.5">{successMsg}</div>}
-                {errMsg && <div className="text-red-600 border border-red-600 rounded p-2.5">{errMsg}</div>}
-                <button
-                    type="submit"
-                    className="bg-blue-600 text-white border border-gray-200 rounded py-3 px-0 cursor-pointer shadow-xl mt-1.5 font-bold w-full disabled:bg-blue-300 disabled:hover:shadow-none"
-                    disabled={wait}
-                >
-                    Sign Up
-                </button>
+                {errMsg ? <div className="text-red-600 border border-red-600 rounded p-2.5">{errMsg}</div> : <></>}
+                {redirect ? (
+                    redirect
+                ) : (
+                    <button
+                        type="submit"
+                        className="bg-blue-600 text-white border border-gray-200 rounded py-3 px-0 cursor-pointer shadow-xl mt-1.5 font-bold w-full disabled:bg-blue-300 disabled:hover:shadow-none"
+                        disabled={wait}
+                    >
+                        Sign Up
+                    </button>
+                )}
                 <div className="text-center pt-2.5">
                     <Link to="/login">Login</Link>
                 </div>
