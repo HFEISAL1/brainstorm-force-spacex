@@ -5,8 +5,8 @@ import { RocketsContextProvider } from "./contexts/RocketsContext";
 import { UserContext } from "./contexts/UserContext";
 import Nav from "./components/Navigation/Nav";
 import Loader from "./components/UI/Loader";
-// import Login from "./components/Login";
-// import Register from "./components/Register";
+import Login from "./components/Login";
+import Register from "./components/Register";
 
 import "./App.css";
 
@@ -20,13 +20,18 @@ const App = () => {
     const { user } = useContext(UserContext);
     const routes = (
         <Routes>
-            <Route path="/" element={<Home />} />
+            {user && <Route path="/" element={<Home />} />}
             <Route path="/rockets" element={<Rockets />} />
             <Route path="/rockets/:rocketId" element={<RocketDetail />} />
             <Route path="/launches" element={<Launches />} />
             <Route path="/launches/:flightNumber" element={<LaunchDetail />} />
-            {/* <Route path="*" element={<Navigate to={user ? "/" : "/login"} />} /> */}
-            <Route path="*" element={<Navigate to="/" />} />
+            <Route path="*" element={<Navigate to={user ? "/" : "/login"} />} />
+            {!user && (
+                <>
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/signup" element={<Register />} />
+                </>
+            )}
         </Routes>
     );
 
@@ -42,7 +47,7 @@ const App = () => {
                 <Router basename={process.env.PUBLIC_URL}>
                     <Nav />
                     {routes}
-                    </Router>
+                </Router>
             </Suspense>
         </RocketsContextProvider>
     );

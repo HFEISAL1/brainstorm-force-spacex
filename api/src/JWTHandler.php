@@ -22,7 +22,7 @@ class JWTHandler
         $this->expire = $this->issuedAt + 1800;
 
         // Set your secret or signature
-        $this->jwt_secrect = getenv('JWT_SECRET');
+        $this->jwt_secrect = $_ENV['JWT_SECRET'];
     }
 
     public function jwtEncodeData($iss, $data)

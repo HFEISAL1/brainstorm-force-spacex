@@ -14,7 +14,7 @@ export const UserContextProvider = ({ children }) => {
     const registerUser = async ({ firstName, lastName, email, password }) => {
         setWait(true);
         try {
-            const { data } = await Axios.post("http://localhost:8000/register.php", {
+            const { data } = await Axios.post("register.php", {
                 firstName,
                 lastName,
                 email,
@@ -51,8 +51,10 @@ export const UserContextProvider = ({ children }) => {
     const loggedInCheck = async () => {
         const loginToken = localStorage.getItem("loginToken");
         Axios.defaults.headers.common["Authorization"] = "Bearer " + loginToken;
+
         if (loginToken) {
             const { data } = await Axios.get("getUser.php");
+
             if (data.success && data.user) {
                 setUser(data.user);
                 return;
