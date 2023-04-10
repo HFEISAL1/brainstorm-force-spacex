@@ -13,15 +13,15 @@ import "./App.css";
 const Home = React.lazy(() => import("./pages/Home"));
 // const Launches = React.lazy(() => import("./pages/Launches"));
 // const LaunchDetail = React.lazy(() => import("./pages/LaunchDetail"));
-// const Rockets = React.lazy(() => import("./pages/Rockets"));
+const Rockets = React.lazy(() => import("./pages/Rockets"));
 // const RocketDetail = React.lazy(() => import("./pages/RocketDetail"));
 
 const App = () => {
     const routes = (
         <Routes>
             <Route path="/" element={<Home />} />
-            {/* <Route path="/rockets" exact render={() => <Rockets />} />
-            <Route path="/rockets/:rocketId" render={() => <RocketDetail />} />
+            <Route path="/rockets" element={<Rockets />} />
+            {/* <Route path="/rockets/:rocketId" render={() => <RocketDetail />} />
             <Route path="/launches" exact render={() => <Launches />} />
             <Route path="/launches/:flightNumber" render={() => <LaunchDetail />} /> */}
             {/* <Route>
