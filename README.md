@@ -77,3 +77,7 @@ $ cd brainstorm-force-spacex/frontend/
 $ npm i
 $ npm run start
 ```
+
+Access the application on http://localhost:3000
+
+Happy testing! :heart:
